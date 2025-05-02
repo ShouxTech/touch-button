@@ -66,16 +66,61 @@ function getTouchGui() {
 }
 
 export class TouchButton {
+    public static configEditingMode = atom(false);
+    public static touchButtons: TouchButton[] = [];
+
+    private static initialized = false;
+
     private touchBtn;
     private name: string;
     private defaultConfig: TouchButtonConfig;
 
 	private configUpdateScheduled = false;
 
-    public static configEditingMode = atom(false);
-    public static touchButtons: TouchButton[] = [];
+    private static init() {
+        if (this.initialized) return;
+        this.initialized = true;
+
+        const editingTrove = new Trove();
+        effect(() => {
+            const isEditing = TouchButton.configEditingMode();
+            if (isEditing) {
+                const resetBtn = new Instance('TextButton');
+                resetBtn.Name = 'Reset';
+                resetBtn.AnchorPoint = new Vector2(0.5, 0.5);
+                resetBtn.BackgroundColor3 = new Color3();
+                resetBtn.BackgroundTransparency = 0.25;
+                resetBtn.FontFace = new Font(
+                    'rbxasset://fonts/families/GothamSSm.json',
+                    Enum.FontWeight.Medium,
+                    Enum.FontStyle.Normal
+                );
+                resetBtn.Position = UDim2.fromScale(0.5, 0.5);
+                resetBtn.Size = UDim2.fromOffset(120, 32);
+                resetBtn.Text = 'Reset Buttons';
+                resetBtn.TextColor3 = new Color3(1, 1, 1);
+                resetBtn.TextSize = 16;
+                resetBtn.Parent = touchGui;
+                editingTrove.add(resetBtn);
+
+                const UICorner = new Instance('UICorner');
+                UICorner.CornerRadius = new UDim(0, 5);
+                UICorner.Parent = resetBtn;
+
+                resetBtn.MouseButton1Click.Connect(() => {
+                    for (const touchBtn of TouchButton.touchButtons) {
+                        touchBtn.resetConfigToDefault();
+                    }
+                });
+            } else {
+                editingTrove.clean();
+            }
+        });
+    }
 
     constructor(options: {name: string, icon: string, size: UDim2, position: UDim2, onPress?: () => void, onRelease?: () => void}) {
+        TouchButton.init();
+
         for (const otherTouchBtn of TouchButton.touchButtons) {
             assert(otherTouchBtn.name !== options.name, `A TouchButton with the name ${options.name} already exists`);
         }
@@ -136,36 +181,6 @@ export class TouchButton {
                 touchBtn.Active = true;
                 touchBtn.ImageColor3 = EDITING_MODE_BUTTON_COLOR;
                 iconImage.ImageColor3 = EDITING_MODE_BUTTON_COLOR;
-
-                {
-                    const resetBtn = new Instance('TextButton');
-                    resetBtn.Name = 'Reset';
-                    resetBtn.AnchorPoint = new Vector2(0.5, 0.5);
-                    resetBtn.BackgroundColor3 = new Color3();
-                    resetBtn.BackgroundTransparency = 0.25;
-                    resetBtn.FontFace = new Font(
-                        'rbxasset://fonts/families/GothamSSm.json',
-                        Enum.FontWeight.Medium,
-                        Enum.FontStyle.Normal
-                    );
-                    resetBtn.Position = UDim2.fromScale(0.5, 0.5);
-                    resetBtn.Size = UDim2.fromOffset(120, 32);
-                    resetBtn.Text = 'Reset Buttons';
-                    resetBtn.TextColor3 = new Color3(1, 1, 1);
-                    resetBtn.TextSize = 16;
-                    resetBtn.Parent = touchGui;
-                    editingTrove.add(resetBtn);
-
-                    const UICorner = new Instance('UICorner');
-                    UICorner.CornerRadius = new UDim(0, 5);
-                    UICorner.Parent = resetBtn;
-
-                    resetBtn.MouseButton1Click.Connect(() => {
-                        for (const touchBtn of TouchButton.touchButtons) {
-                            touchBtn.resetConfigToDefault();
-                        }
-                    });
-                }
 
                 const resizeBtn = new Instance('ImageButton');
                 resizeBtn.AnchorPoint = new Vector2(0.5, 0.5);
