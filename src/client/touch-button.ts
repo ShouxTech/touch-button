@@ -301,5 +301,6 @@ export class TouchButton {
 
     public destroy() {
         this.touchBtn.Destroy();
+        TouchButton.touchButtons.remove(TouchButton.touchButtons.indexOf(this));
     }
 }
