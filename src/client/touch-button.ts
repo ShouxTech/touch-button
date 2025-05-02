@@ -76,6 +76,10 @@ export class TouchButton {
     public static touchButtons: TouchButton[] = [];
 
     constructor(options: {name: string, icon: string, size: UDim2, position: UDim2, onPress?: () => void, onRelease?: () => void}) {
+        for (const otherTouchBtn of TouchButton.touchButtons) {
+            assert(otherTouchBtn.name !== options.name, `A TouchButton with the name ${options.name} already exists`);
+        }
+
         this.name = options.name;
         this.defaultConfig = {
             position: options.position,
