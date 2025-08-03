@@ -118,7 +118,7 @@ export class TouchButton {
         });
     }
 
-    constructor(options: {name: string, icon: string, size: UDim2, position: UDim2, onPress?: () => void, onRelease?: () => void}) {
+    constructor(options: {name: string, icon: string, size: UDim2, position: UDim2, sinkInput?: boolean, onPress?: () => void, onRelease?: () => void}) {
         TouchButton.init();
 
         for (const otherTouchBtn of TouchButton.touchButtons) {
@@ -135,7 +135,7 @@ export class TouchButton {
 
         const touchBtn = new Instance('ImageButton');
         touchBtn.Name = 'TouchButton';
-        touchBtn.Active = false; // Allow for camera movement while pressing button.
+        touchBtn.Active = !!options.sinkInput; // Allow/disallow camera movement while pressing button.
         touchBtn.Image = 'http://www.roblox.com/asset/?id=15340864550';
         touchBtn.ImageColor3 = Color3.fromRGB(255, 255, 255);
         touchBtn.ImageTransparency = 0.5;
