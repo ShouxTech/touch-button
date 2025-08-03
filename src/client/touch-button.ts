@@ -174,10 +174,13 @@ export class TouchButton {
         });
 
         const editingTrove = new Trove();
+        let lastActive = touchBtn.Active;
         effect(() => {
             const isEditing = TouchButton.configEditingMode();
 
             if (isEditing) {
+                lastActive = touchBtn.Active;
+
                 touchBtn.Active = true;
                 touchBtn.ImageColor3 = EDITING_MODE_BUTTON_COLOR;
                 iconImage.ImageColor3 = EDITING_MODE_BUTTON_COLOR;
@@ -249,7 +252,7 @@ export class TouchButton {
             } else {
                 editingTrove.clean();
 
-                touchBtn.Active = false;
+                touchBtn.Active = lastActive;
                 touchBtn.ImageColor3 = Color3.fromRGB(255, 255, 255);
                 iconImage.ImageColor3 = Color3.fromRGB(255, 255, 255);
             }
