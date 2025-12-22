@@ -75,7 +75,7 @@ export class TouchButton {
     private name: string;
     private defaultConfig: TouchButtonConfig;
 
-	private configUpdateScheduled = false;
+    private configUpdateScheduled = false;
 
     private static init() {
         if (this.initialized) return;
@@ -85,32 +85,50 @@ export class TouchButton {
         effect(() => {
             const isEditing = TouchButton.configEditingMode();
             if (isEditing) {
-                const resetBtn = new Instance('TextButton');
-                resetBtn.Name = 'Reset';
-                resetBtn.AnchorPoint = new Vector2(0.5, 0.5);
-                resetBtn.BackgroundColor3 = new Color3();
-                resetBtn.BackgroundTransparency = 0.25;
-                resetBtn.FontFace = new Font(
-                    'rbxasset://fonts/families/GothamSSm.json',
-                    Enum.FontWeight.Medium,
-                    Enum.FontStyle.Normal
-                );
-                resetBtn.Position = UDim2.fromScale(0.5, 0.5);
-                resetBtn.Size = UDim2.fromOffset(120, 32);
-                resetBtn.Text = 'Reset Buttons';
-                resetBtn.TextColor3 = new Color3(1, 1, 1);
-                resetBtn.TextSize = 16;
-                resetBtn.Parent = touchGui;
-                editingTrove.add(resetBtn);
+                const createButton = (props: { name: string, text: string, backgroundColor: Color3, offsetY: number }) => {
+                    const btn = new Instance('TextButton');
+                    btn.Name = props.name;
+                    btn.AnchorPoint = new Vector2(0.5, 0.5);
+                    btn.BackgroundColor3 = props.backgroundColor;
+                    btn.BackgroundTransparency = 0.25;
+                    btn.FontFace = new Font(
+                        'rbxasset://fonts/families/GothamSSm.json',
+                        Enum.FontWeight.Medium,
+                        Enum.FontStyle.Normal
+                    );
+                    btn.Position = new UDim2(0.5, 0, 0.5, props.offsetY);
+                    btn.Size = UDim2.fromOffset(120, 32);
+                    btn.Text = props.text;
+                    btn.TextColor3 = new Color3(1, 1, 1);
+                    btn.TextSize = 16;
+                    btn.Parent = touchGui;
+                    editingTrove.add(btn);
 
-                const UICorner = new Instance('UICorner');
-                UICorner.CornerRadius = new UDim(0, 5);
-                UICorner.Parent = resetBtn;
+                    const UICorner = new Instance('UICorner');
+                    UICorner.CornerRadius = new UDim(0, 5);
+                    UICorner.Parent = btn;
 
-                resetBtn.MouseButton1Click.Connect(() => {
+                    return btn;
+                }
+
+                createButton({
+                    name: 'Reset',
+                    text: 'Reset Buttons',
+                    backgroundColor: new Color3(),
+                    offsetY: -19,
+                }).MouseButton1Click.Connect(() => {
                     for (const touchBtn of TouchButton.touchButtons) {
                         touchBtn.resetConfigToDefault();
                     }
+                });
+
+                createButton({
+                    name: 'Finish',
+                    text: 'Finish Editing',
+                    backgroundColor: Color3.fromRGB(30, 175, 30),
+                    offsetY: 19,
+                }).MouseButton1Click.Connect(() => {
+                    this.configEditingMode(false);
                 });
             } else {
                 editingTrove.clean();
