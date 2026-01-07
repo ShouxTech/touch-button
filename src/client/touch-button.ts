@@ -1,4 +1,4 @@
-import { observeProperty } from '@rbxts/roblox-observers/out/observe-property';
+import { observeProperty } from '@rbxts/roblox-observers';
 import { Players, UserInputService, Workspace } from '@rbxts/services';
 import { remotes, TouchButtonConfig } from '../shared/remotes';
 import { atom, effect } from '@rbxts/charm';

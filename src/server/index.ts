@@ -1,6 +1,6 @@
 import { DataStoreService, RunService } from '@rbxts/services';
 import { remotes, TouchButtonConfig } from '../shared/remotes';
-import { observePlayers } from '@rbxts/roblox-observers/out/observe-players';
+import { observePlayers } from '@rbxts/roblox-observers';
 import Signal from '@rbxts/sleitnick-signal';
 
 type DataStoreEntry = Record<string, TouchButtonConfig>;
