@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/touch-button",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "out/init.lua",
   "scripts": {
@@ -32,7 +32,7 @@
     "@rbxts/roblox-observers": "^1.0.10",
     "@rbxts/services": "^1.5.5",
     "@rbxts/sleitnick-signal": "^1.0.8",
-    "@rbxts/t": "^3.2.1",
-    "@rbxts/trove": "^1.3.0"
+    "@rbxts/sleitnick-trove": "^1.0.0",
+    "@rbxts/t": "^3.2.1"
   }
 }

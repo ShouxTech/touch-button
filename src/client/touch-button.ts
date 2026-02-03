@@ -2,7 +2,7 @@ import { observeProperty } from '@rbxts/roblox-observers';
 import { Players, UserInputService, Workspace } from '@rbxts/services';
 import { remotes, TouchButtonConfig } from '../shared/remotes';
 import { atom, effect } from '@rbxts/charm';
-import { Trove } from '@rbxts/trove';
+import Trove from '@rbxts/sleitnick-trove';
 
 const localPlayer = Players.LocalPlayer;
 const camera = Workspace.CurrentCamera!;
@@ -102,7 +102,7 @@ export class TouchButton {
                     btn.TextColor3 = new Color3(1, 1, 1);
                     btn.TextSize = 16;
                     btn.Parent = touchGui;
-                    editingTrove.add(btn);
+                    editingTrove.Add(btn);
 
                     const UICorner = new Instance('UICorner');
                     UICorner.CornerRadius = new UDim(0, 5);
@@ -131,7 +131,7 @@ export class TouchButton {
                     this.configEditingMode(false);
                 });
             } else {
-                editingTrove.clean();
+                editingTrove.Clean();
             }
         });
     }
@@ -210,7 +210,7 @@ export class TouchButton {
                 resizeBtn.Position = UDim2.fromScale(0.82, 0.82);
                 resizeBtn.Size = UDim2.fromOffset(18, 18);
                 resizeBtn.Parent = touchBtn;
-                editingTrove.add(resizeBtn);
+                editingTrove.Add(resizeBtn);
 
                 resizeBtn.InputBegan.Connect((input) => {
                     if ((input.UserInputType !== Enum.UserInputType.MouseButton1) && (input.UserInputType !== Enum.UserInputType.Touch)) return;
@@ -241,7 +241,7 @@ export class TouchButton {
                     });
                 });
 
-                editingTrove.add(touchBtn.InputBegan.Connect((input) => {
+                editingTrove.Add(touchBtn.InputBegan.Connect((input) => {
                     if ((input.UserInputType !== Enum.UserInputType.MouseButton1) && (input.UserInputType !== Enum.UserInputType.Touch)) return;
                     if (input.UserInputState !== Enum.UserInputState.Begin) return;
 
@@ -268,7 +268,7 @@ export class TouchButton {
                     });
                 }));
             } else {
-                editingTrove.clean();
+                editingTrove.Clean();
 
                 touchBtn.Active = lastActive;
                 touchBtn.ImageColor3 = Color3.fromRGB(255, 255, 255);
