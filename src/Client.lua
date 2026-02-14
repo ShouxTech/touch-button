@@ -9,14 +9,6 @@ local dependencies = if isTypeScriptEnv then script.Parent.Parent.Parent else sc
 local Charm = require(isTypeScriptEnv and dependencies.charm or dependencies.Charm);
 local Trove = require(isTypeScriptEnv and dependencies['sleitnick-trove'].src or dependencies.Trove);
 
-type TouchButton = {
-	setIcon: (self: TouchButton, icon: string) -> (),
-	setSize: (self: TouchButton, size: UDim2) -> (),
-	setPosition: (self: TouchButton, position: UDim2) -> (),
-	setConfig: (self: TouchButton, config: Shared.TouchButtonConfig) -> (),
-	destroy: (self: TouchButton) -> (),
-};
-
 type TouchButtonOptions = {
 	name: string,
 	icon: string,
@@ -104,7 +96,7 @@ local Client = {};
 Client.__index = Client;
 
 Client.configEditingMode = Charm.atom(false);
-Client.touchButtons = {} :: { TouchButton };
+Client.touchButtons = {} :: { typeof(setmetatable({}, Client)) };
 
 function Client._init()
 	if initialized then return; end;
