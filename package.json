@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/touch-button",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "main": "src/init.lua",
   "scripts": {},
