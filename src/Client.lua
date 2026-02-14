@@ -7,7 +7,7 @@ local Shared = require(script.Parent.Shared);
 local isTypeScriptEnv = script.Parent.Name == 'src';
 local dependencies = if isTypeScriptEnv then script.Parent.Parent.Parent else script.Parent.Parent;
 local Charm = require(isTypeScriptEnv and dependencies.charm or dependencies.Charm);
-local Trove = require(isTypeScriptEnv and dependencies['sleitnick-trove'] or dependencies.Trove);
+local Trove = require(isTypeScriptEnv and dependencies['sleitnick-trove'].src or dependencies.Trove);
 
 type TouchButton = {
 	setIcon: (self: TouchButton, icon: string) -> (),
