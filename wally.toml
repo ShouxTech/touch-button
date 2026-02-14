@@ -1,0 +1,12 @@
+[package]
+name = "shouxtech/touch-button"
+description = ""
+version = "1.0.11"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+include = ["src", "src/**", "default.project.json", "wally.toml", "wally.lock"]
+exclude = ["**"]
+
+[dependencies]
+Signal = "sleitnick/signal@2.0.3"
+Sift = "csqrl/sift@0.0.11"

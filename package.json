@@ -1,38 +1,24 @@
 {
   "name": "@rbxts/touch-button",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "",
-  "main": "out/init.lua",
-  "scripts": {
-    "build": "rbxtsc",
-    "watch": "rbxtsc -w",
-    "prepublishOnly": "npm run build"
-  },
+  "main": "src/init.lua",
+  "scripts": {},
   "keywords": [],
   "author": "CriShoux",
   "license": "ISC",
   "type": "commonjs",
-  "types": "out/index.d.ts",
+  "types": "src/index.d.ts",
   "files": [
-    "out",
-    "!**/*.tsbuildinfo"
+    "src"
   ],
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "@rbxts/compiler-types": "^3.0.0-types.0",
-    "@rbxts/types": "^1.0.848",
+    "@rbxts/types": "^1.0.896",
     "roblox-ts": "^3.0.0",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "@rbxts/charm": "^0.10.0",
-    "@rbxts/remo": "^1.5.1",
-    "@rbxts/roblox-observers": "^1.0.10",
-    "@rbxts/services": "^1.5.5",
-    "@rbxts/sleitnick-signal": "^1.0.8",
-    "@rbxts/sleitnick-trove": "^1.0.0",
-    "@rbxts/t": "^3.2.1"
+    "typescript": "^5.9.3"
   }
 }
