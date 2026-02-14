@@ -1,65 +1,36 @@
 declare namespace TouchButton {
-	/**
-	 * Recursively builds a union of all valid path tuples for object T.
-	 * E.g., { a: { b: 1 } } -> ['a'] | ['a', 'b']
-	 */
-	type Path<T> = T extends object
-		? { [K in keyof T & string]: [K] | [K, ...Path<T[K]>] }[keyof T & string]
-		: never;
-	/**
-	 * Resolves the type of the value at a specific path P within object T.
-	 */
-	type PathValue<T, P extends any[]> = P extends [infer K, ...infer R]
-		? K extends keyof T
-			? R extends []
-				? T[K]
-				: PathValue<T[K], R>
-			: never
-		: never;
+    interface TouchButtonConfig {
+        position: UDim2;
+        size: UDim2;
+    }
 
-	type Cleanup = () => void;
+    interface TouchButtonOptions {
+        name: string;
+        icon: string;
+        size: UDim2;
+        position: UDim2;
+        sinkInput?: boolean;
+        onPress?: () => void;
+        onRelease?: () => void;
+    }
 
-	interface ServerConfig<T extends object> {
-		channel: string;
-		replicateTo?: Player;
-		data: T;
-	}
+    namespace Server {
+        function init(validTouchButtonNames: string[]): void;
+    }
 
-	interface ReplionBase<T extends object> {
-		get(): T;
-		get<P extends Path<T>>(path: P): PathValue<T, P>;
+    class Client {
+        static touchButtons: Client[];
+        static configEditingMode: (enabled?: boolean) => boolean;
 
-		subscribe(key: undefined, callback: (newValue: T, oldValue: Partial<T>) => void): Cleanup;
-		subscribe<P extends Path<T>>(
-			path: P,
-			callback: (newValue: PathValue<T, P>, oldValue: PathValue<T, P> | undefined) => void,
-		): Cleanup;
+        constructor(options: TouchButtonOptions);
 
-		observe(key: undefined, callback: (newValue: T, oldValue: Partial<T>) => void): Cleanup;
-		observe<P extends Path<T>>(
-			path: P,
-			callback: (newValue: PathValue<T, P>, oldValue: PathValue<T, P> | undefined) => void,
-		): Cleanup;
-
-		destroy(): void;
-	}
-
-	interface Server<T extends object> extends ReplionBase<T> { }
-	class Server<T extends object> {
-		constructor(config: ServerConfig<T>);
-
-		set<P extends Path<T>>(
-			path: P,
-			value: PathValue<T, P> | ((oldValue: PathValue<T, P>) => PathValue<T, P>),
-		): void;
-	}
-
-	interface Client<T extends object> extends ReplionBase<T> { }
-	class Client<T extends object> {
-		static waitForReplion: <T extends object>(channel: string) => Client<T>;
-
-		private constructor();
-	}
+        setIcon(icon: string): void;
+        setColor(color: Color3): void;
+        setSize(size: UDim2): void;
+        setPosition(position: UDim2): void;
+        setConfig(config: TouchButtonConfig): void;
+        destroy(): void;
+    }
 }
 
 export = TouchButton;
