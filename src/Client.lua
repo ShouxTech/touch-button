@@ -30,6 +30,7 @@ local initialized = false;
 local EDITING_MODE_BUTTON_COLOR = Color3.fromRGB(15, 143, 255);
 local MIN_RESIZE = 40;
 
+-- From StarterPlayerScripts.PlayerModule.ControlModule.TouchJump
 local function getJumpButtonLayout()
 	local minAxis = math.min(camera.ViewportSize.X, camera.ViewportSize.Y);
 	local isSmallScreen = minAxis <= 500;
